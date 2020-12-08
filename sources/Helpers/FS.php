@@ -9,17 +9,24 @@ class FS
     /**
      * Рекурсивный rmdir
      *
-     * @param $dir
+     * @param $directory
      * @return bool
      */
-    public static function rmdir($dir): bool
+    public static function rmdir($directory): bool
     {
-        $files = array_diff(scandir($dir), array('.', '..'));
-        foreach ($files as $file) {
-            $target = "{$dir}/{$file}";
-            (is_dir($target)) ? self::rmdir($target) : unlink($target);
+        if (!is_dir($directory)) {
+            return false;
         }
-        return rmdir($dir);
+        
+        $files = array_diff(scandir($directory), ['.', '..']);
+        
+        foreach ($files as $file) {
+            $target = "{$directory}/{$file}";
+            (is_dir($target))
+                ? self::rmdir($target)
+                : unlink($target);
+        }
+        return rmdir($directory);
     }
 
 }
