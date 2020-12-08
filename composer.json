@@ -1,0 +1,35 @@
+{
+    "name": "karelwintersky/arris.helpers",
+    "description": "Karel Wintersky's Application µFramework Helpers",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Karel Wintersky",
+            "email": "karel.wintersky@gmail.com"
+        }
+    ],
+    "keywords": [ "arris", "helpers" ],
+    "config": {
+        "optimize-autoloader": true,
+        "platform-check": false
+    },
+    "require": {
+        "php": ">=7.2",
+        "ext-pdo": "*",
+        "ext-mbstring": "*",
+        "ext-json": "*"
+    },
+    "suggest": {
+        "karelwintersky/arris": "Karel Wintersky's Application µFramework",
+        "jbzoo/utils": "Collection of PHP functions, mini classes and snippets for everyday developer's routine life."
+    },
+    "autoload": {
+        "files": [
+          "sources/helpers.php"
+        ],
+        "psr-4": {
+            "Arris\\"           : ["interfaces", "sources"]
+        }
+    }
+}
