@@ -88,4 +88,19 @@ class FS
         return $directory_content;
     }
     
+    /**
+     *
+     * @param $path
+     * @return bool
+     */
+    public static function checkPath($path)
+    {
+        if (!is_dir( $path ) && !mkdir( $path, 0777, true ) && !is_dir( $path )) {
+            return false;
+            //throw new \RuntimeException( sprintf( 'Directory "%s" was not created', $path ) );
+        }
+        
+        return true;
+    }
+    
 }
