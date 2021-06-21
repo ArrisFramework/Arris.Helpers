@@ -4,18 +4,7 @@ namespace Arris\Helpers;
 
 class HTTP
 {
-    /**
-     * Проверяет, является ли переданная строка корректным URL (http/https/ftp), включая IDN
-     *
-     * @param $url
-     * @return false|int
-     */
-    public static function filter_validate_url($url)
-    {
-        return preg_match('#((https?|ftp)://(\S*?\.\S*?))([\s)\[\]{},;"\':<]|\.\s|$)#i', $url);
-    }
-    
-    public function getIP()
+    public static function getIP()
     {
         if (php_sapi_name() === 'cli') return '127.0.0.1';
         
@@ -32,6 +21,26 @@ class HTTP
         }
         
         return filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP) ? $_SERVER['REMOTE_ADDR'] : NULL;
+    }
+    
+    /**
+     *
+     * @param $file_post
+     * @return array
+     */
+    public static function reArrangeFilesPOST($file_post)
+    {
+        $rearranged_files = [];
+        $file_count = count($file_post['name']);
+        $file_keys = array_keys($file_post);
+    
+        for ($i = 0; $i < $file_count; $i++) {
+            foreach ($file_keys as $key) {
+                $rearranged_files[$i][$key] = $file_post[$key][$i];
+            }
+        }
+    
+        return $rearranged_files;
     }
     
 }

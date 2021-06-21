@@ -2,3 +2,9 @@
 
 Helpers for Arris µ-Framework 
 
+
+---
+Other helpers:
+
+https://github.com/AgelxNash/functions
+

@@ -6,6 +6,7 @@ class Str
 {
     /**
      * trims text to a space then adds ellipses if desired
+     *
      * @param string $input text to trim
      * @param int $length in characters to trim to
      * @param bool $ellipses if ellipses (...) are to be added
@@ -117,6 +118,36 @@ class Str
             function($m) use ($map) { return $m[1].'%'.($map[$m[2]] + 1).'$'; },
             $str);
         return vsprintf($new_str, $args);
+    }
+    
+    /**
+     * pluralForm - форма числительного
+     *
+     * @param $number
+     * @param mixed $forms (array or string with glues, x|y|z or [x,y,z]
+     * @param string $glue
+     * @return string
+     */
+    public static function pluralForm($number, $forms, string $glue = '|'):string
+    {
+        if (is_string($forms)) {
+            $forms = explode($forms, $glue);
+        } elseif (!is_array($forms)) {
+            return '';
+        }
+    
+        if (3 != count($forms)) {
+            return '';
+        }
+    
+        return
+            ($number % 10 == 1 && $number % 100 != 11)
+                ? $forms[0]
+                : (
+            ($number % 10 >= 2 && $number % 10 <= 4 && ($number % 100 < 10 || $number % 100 >= 20))
+                ? $forms[1]
+                : $forms[2]
+            );
     }
     
     

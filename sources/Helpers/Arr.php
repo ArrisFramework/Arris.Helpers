@@ -49,8 +49,14 @@ class Arr
      */
     public static function map($input, callable $callback):array
     {
-        if (!is_array($input) || empty($input)) return [];
-        if (!is_callable($callback)) $callback = static function() {};
+        if (!is_array($input) || empty($input)) {
+            return [];
+        }
+        
+        if (!is_callable($callback)) {
+            $callback = static function() {
+            };
+        }
     
         return array_map($callback, $input);
     }
@@ -80,6 +86,8 @@ class Arr
      * Sort array in given order by key
      * Returns array
      *
+     * Alias of array_sort_in_given_order()
+     *
      * @param $array - array for sort [ [ id, data...], [ id, data...], ...  ]
      * @param $order - order (as array of sortkey values) [ id1, id2, id3...]
      * @param $sort_key - sorting key (id)
@@ -94,6 +102,40 @@ class Arr
         });
         return $array;
     }
+    
+    public static function filter(array $input, $callback = null, $flag = 0)
+    {
+        return array_filter($input, $callback, $flag);
+    }
+    
+    /**
+     *
+     *
+     * @param array $input
+     * @param callable $callback
+     * @return array|mixed|null
+     */
+    public static function searchCallback(array $input, callable $callback)
+    {
+        if (!is_array($input) || empty($input)) {
+            return [];
+        }
+    
+        if (!is_callable($callback)) {
+            $callback = static function() { };
+        }
+    
+        foreach ($input as $item) {
+            $v = \call_user_func($callback, $item);
+            if ( $v === true ) {
+                return $item;
+            }
+        }
+        return null;
+        
+    }
+    
+    
     
 }
 
