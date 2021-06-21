@@ -17,7 +17,7 @@ class Debug
     public static function array_code($array, $level = 1)
     {
         $php = $tabs = $breaks = '';
-        if (is_array($arr)) {
+        if (is_array($array)) {
             for ($n = 0; $n < $level; $n++) {
                 $tabs .= "\t";
                 if ($n > 0) {
@@ -25,7 +25,7 @@ class Debug
                 }
             }
             $vals = [];
-            foreach ($arr as $key => $val) {
+            foreach ($array as $key => $val) {
                 $vals[] = is_array($val) ?
                     "'" . $key . "'=>" . self::array_code($val, $level + 1) :
                     "'" . $key . "'=>'" . $val . "'";

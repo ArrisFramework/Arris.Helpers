@@ -35,7 +35,7 @@ class Arr
     {
         if (!is_array($input) || empty($input)) return [];
 
-        return array_map(function ($i) {
+        return array_map( static function ($i) {
             return (int)$i;
         }, $input);
     }
