@@ -150,5 +150,9 @@ class Str
             );
     }
     
+    public static function toFixedString($value, $separator = '.')
+    {
+        return str_replace(',', $separator, (string)$value);
+    }
     
 }
