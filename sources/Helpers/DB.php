@@ -32,7 +32,7 @@ class DB
         $query = "INSERT INTO `{$table}` SET ";
 
         foreach ($dataset as $index => $value) {
-            if (strtoupper(trim($value)) === 'NOW()') {
+            if (\strtoupper(trim($value)) === 'NOW()') {
                 $set[] = "\r\n `{$index}` = NOW()";
                 unset($dataset[ $index ]);
                 continue;
@@ -41,7 +41,7 @@ class DB
             $set[] = "\r\n `{$index}` = :{$index}";
         }
 
-        $query .= implode(', ', $set) . ' ;';
+        $query .= \implode(', ', $set) . ' ;';
 
         return $query;
     }
@@ -66,7 +66,7 @@ class DB
         $query = "UPDATE `{$table}` SET";
 
         foreach ($dataset as $index => $value) {
-            if (strtoupper(trim($value)) === 'NOW()') {
+            if (\strtoupper(\trim($value)) === 'NOW()') {
                 $set[] = "{$crlf} `{$index}` = NOW()";
                 unset($dataset[ $index ]);
                 continue;
@@ -75,15 +75,15 @@ class DB
             $set[] = "{$crlf}`{$index}` = :{$index}";
         }
 
-        $query .= implode(', ', $set);
+        $query .= \implode(', ', $set);
 
-        if (is_array($where_condition)) {
+        if (\is_array($where_condition)) {
             $where_condition = key($where_condition) . ' = ' . current($where_condition);
         }
-        if ( is_string($where_condition ) && (false == strpos($where_condition, 'WHERE')) ) {
+        if ( \is_string($where_condition ) && (false == strpos($where_condition, 'WHERE')) ) {
             $where_condition = " WHERE {$where_condition}";
         }
-        if (is_null($where_condition)) {
+        if (\is_null($where_condition)) {
             $where_condition = '';
         }
 
@@ -102,7 +102,7 @@ class DB
         $query = "REPLACE `{$table}` SET ";
 
         foreach ($dataset as $index => $value) {
-            if (strtoupper(trim($value)) === 'NOW()') {
+            if (\strtoupper(trim($value)) === 'NOW()') {
                 $fields[] = "`{$index}` = NOW()";
                 unset($dataset[ $index ]);
                 continue;
@@ -111,7 +111,7 @@ class DB
             $fields[] = " `{$index}` = :{$index} ";
         }
 
-        $query .= implode(', ', $fields);
+        $query .= \implode(', ', $fields);
 
         $query .= " \r\n" . $where . " ;";
 
@@ -137,20 +137,20 @@ class DB
 
         $dataset_keys = array_keys($dataset);
 
-        $query .= implode(', ', array_map(function ($i){
+        $query .= \implode(', ', array_map(function ($i){
             return "`{$i}`";
         }, $dataset_keys));
 
         $query .= " ) VALUES ( ";
 
-        $query .= implode(', ', array_map(function ($i) use ($mva_attributes, $dataset){
-            return in_array($i, $mva_attributes) ? "({$dataset[$i]})" : ":{$i}";
+        $query .= \implode(', ', array_map(function ($i) use ($mva_attributes, $dataset){
+            return \in_array($i, $mva_attributes) ? "({$dataset[$i]})" : ":{$i}";
         }, $dataset_keys));
 
         $query .= " ) ";
 
         $new_dataset = array_filter($dataset, function ($value, $key) use ($mva_attributes) {
-            return !in_array($key, $mva_attributes);
+            return !\in_array($key, $mva_attributes);
         }, ARRAY_FILTER_USE_BOTH);
 
         return [

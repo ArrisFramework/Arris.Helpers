@@ -55,7 +55,7 @@ class Server
     public static function is_ssl():bool
     {
         if (isset($_SERVER['HTTPS'])) {
-            if ('on' == strtolower($_SERVER['HTTPS'])) {
+            if ('on' == \strtolower($_SERVER['HTTPS'])) {
                 return true;
             }
             if ('1' == $_SERVER['HTTPS']) {
@@ -77,15 +77,15 @@ class Server
      */
     public static function redirect($uri, $code = 302, $replace_headers = true)
     {
-        if ((strpos( $uri, "http://" ) !== false || strpos( $uri, "https://" ) !== false)) {
-            header("Location: {$uri}", $replace_headers, $code);
+        if ((\strpos( $uri, "http://" ) !== false || \strpos( $uri, "https://" ) !== false)) {
+            \header("Location: {$uri}", $replace_headers, $code);
             exit(0);
         }
         
         $scheme = (self::is_ssl() ? "https://" : "http://");
-        $scheme = str_replace('://', '', $scheme);
+        $scheme = \str_replace('://', '', $scheme);
         
-        header("Location: {$scheme}://{$_SERVER['HTTP_HOST']}{$uri}", $replace_headers, $code);
+        \header("Location: {$scheme}://{$_SERVER['HTTP_HOST']}{$uri}", $replace_headers, $code);
         exit(0);
     }
     
@@ -97,7 +97,7 @@ class Server
      */
     public static function filter_validate_url($url)
     {
-        return preg_match('#((https?|ftp)://(\S*?\.\S*?))([\s)\[\]{},;"\':<]|\.\s|$)#i', $url);
+        return \preg_match('#((https?|ftp)://(\S*?\.\S*?))([\s)\[\]{},;"\':<]|\.\s|$)#i', $url);
     }
     
     /**
@@ -113,15 +113,15 @@ class Server
             return NULL;
         }
         
-        if (array_key_exists("HTTP_X_FORWARDED_FOR", $_SERVER)) {
-            $http_x_forwarded_for = explode(",", $_SERVER["HTTP_X_FORWARDED_FOR"]);
-            $client_ip = trim(end($http_x_forwarded_for));
-            if (filter_var($client_ip, FILTER_VALIDATE_IP)) {
+        if (\array_key_exists("HTTP_X_FORWARDED_FOR", $_SERVER)) {
+            $http_x_forwarded_for = \explode(",", $_SERVER["HTTP_X_FORWARDED_FOR"]);
+            $client_ip = \trim(\end($http_x_forwarded_for));
+            if (\filter_var($client_ip, FILTER_VALIDATE_IP)) {
                 return $client_ip;
             }
         }
         
-        return filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP) ? $_SERVER['REMOTE_ADDR'] : NULL;
+        return \filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP) ? $_SERVER['REMOTE_ADDR'] : NULL;
     }
     
     /**
@@ -132,8 +132,8 @@ class Server
     public static function reArrangeFilesPOST($file_post)
     {
         $rearranged_files = [];
-        $file_count = count($file_post['name']);
-        $file_keys = array_keys($file_post);
+        $file_count = \count($file_post['name']);
+        $file_keys = \array_keys($file_post);
         
         for ($i = 0; $i < $file_count; $i++) {
             foreach ($file_keys as $key) {
