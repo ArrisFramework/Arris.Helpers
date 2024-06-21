@@ -2,7 +2,7 @@
 
 namespace Arris\Helpers;
 
-class Strings implements StringsInterface
+class Strings
 {
 
     /**
@@ -149,7 +149,8 @@ class Strings implements StringsInterface
     }
 
     /**
-     * pluralForm - форма числительного
+     * pluralForm - форма числительного (Plural form of number)
+     *
      *
      * @param $number
      * @param mixed $forms (array or string with glues, x|y|z or [x,y,z]

@@ -2,7 +2,7 @@
 
 namespace Arris\Helpers;
 
-class Options implements OptionsInterface
+class Options
 {
     /**
      * Перезаписывает набор дефолтных значений на основе переданного списка опций
