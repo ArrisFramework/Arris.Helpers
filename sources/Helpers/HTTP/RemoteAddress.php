@@ -93,13 +93,8 @@ class RemoteAddress
         if ($ip) {
             return $ip;
         }
-        
-        // direct IP address
-        if (isset($_SERVER['REMOTE_ADDR'])) {
-            return $_SERVER['REMOTE_ADDR'];
-        }
-        
-        return '';
+
+        return $_SERVER['REMOTE_ADDR'] ?? '';
     }
     
     /**
@@ -122,11 +117,11 @@ class RemoteAddress
         }
         
         // Extract IPs
-        $ips = explode(',', $_SERVER[$header]);
+        $ips = \explode(',', $_SERVER[$header]);
         // trim, so we can compare against trusted proxies properly
-        $ips = array_map('trim', $ips);
+        $ips = \array_map('trim', $ips);
         // remove trusted proxy IPs
-        $ips = array_diff($ips, $this->trustedProxies);
+        $ips = \array_diff($ips, $this->trustedProxies);
         
         // Any left?
         if (empty($ips)) {
@@ -138,7 +133,7 @@ class RemoteAddress
         // not know if it is a proxy server, or a client. As such, we treat it
         // as the originating IP.
         // @see http://en.wikipedia.org/wiki/X-Forwarded-For
-        return array_pop($ips);
+        return \array_pop($ips);
     }
     
     /**
@@ -152,9 +147,9 @@ class RemoteAddress
      */
     protected function normalizeProxyHeader($header)
     {
-        $header = strtoupper($header);
-        $header = str_replace('-', '_', $header);
-        if (0 !== strpos($header, 'HTTP_')) {
+        $header = \strtoupper($header);
+        $header = \str_replace('-', '_', $header);
+        if (0 !== \strpos($header, 'HTTP_')) {
             $header = 'HTTP_' . $header;
         }
         return $header;

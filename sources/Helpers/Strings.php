@@ -50,17 +50,17 @@ class Strings
     {
         //strip tags, if desired
         if ($strip_html) {
-            $input = strip_tags($input);
+            $input = \strip_tags($input);
         }
 
         //no need to trim, already shorter than trim length
-        if (mb_strlen($input) <= $length) {
+        if (\mb_strlen($input) <= $length) {
             return $input;
         }
 
         //find last space within length
-        $last_space = mb_strrpos(mb_substr($input, 0, $length), ' ');
-        $trimmed_text = mb_substr($input, 0, $last_space);
+        $last_space = \mb_strrpos(mb_substr($input, 0, $length), ' ');
+        $trimmed_text = \mb_substr($input, 0, $last_space);
 
         //add ellipses (...)
         if ($ellipses) {
@@ -84,11 +84,11 @@ class Strings
      */
     public static function str_replace($search, $replace, $subject, &$count = 0)
     {
-        if (!is_array($search) && is_array($replace)) {
+        if (!\is_array($search) && \is_array($replace)) {
             return false;
         }
 
-        if (is_array($subject)) {
+        if (\is_array($subject)) {
             // call mb_replace for each single string in $subject
             foreach ($subject as &$string) {
                 $string = self::str_replace($search, $replace, $string, $c);
@@ -96,27 +96,27 @@ class Strings
             }
             unset($string);
 
-        } elseif (is_array($search)) {
+        } elseif (\is_array($search)) {
 
-            if (!is_array($replace)) {
+            if (!\is_array($replace)) {
                 foreach ($search as &$string) {
                     $subject = self::str_replace($string, $replace, $subject, $c);
                     $count += $c;
                 }
                 unset($string);
             } else {
-                $n = max(count($search), count($replace));
+                $n = \max(\count($search), \count($replace));
                 while ($n--) {
-                    $subject = self::str_replace(current($search), current($replace), $subject, $c);
+                    $subject = self::str_replace(\current($search), current($replace), $subject, $c);
                     $count += $c;
-                    next($search);
-                    next($replace);
+                    \next($search);
+                    \next($replace);
                 }
             }
         } else {
-            $parts = mb_split(preg_quote($search), $subject);
-            $count = count($parts) - 1;
-            $subject = implode($replace, $parts);
+            $parts = \mb_split(\preg_quote($search), $subject);
+            $count = \count($parts) - 1;
+            $subject = \implode($replace, $parts);
         }
         return $subject;
     }
@@ -138,14 +138,16 @@ class Strings
      */
     public static function vksprintf($str, $args)
     {
-        if (is_object($args)) {
-            $args = get_object_vars($args);
+        if (\is_object($args)) {
+            $args = \get_object_vars($args);
         }
-        $map = array_flip(array_keys($args));
-        $new_str = preg_replace_callback('/(^|[^%])%([a-zA-Z0-9_-]+)\$/',
-            function($m) use ($map) { return $m[1].'%'.($map[$m[2]] + 1).'$'; },
-            $str);
-        return vsprintf($new_str, $args);
+
+        $map = \array_flip(\array_keys($args));
+        $new_str = \preg_replace_callback('/(^|[^%])%([a-zA-Z0-9_-]+)\$/',function($m) use ($map) {
+            return $m[1].'%'.($map[$m[2]] + 1).'$';
+            },$str);
+
+        return \vsprintf($new_str, $args);
     }
 
     /**
@@ -153,7 +155,7 @@ class Strings
      *
      *
      * @param $number
-     * @param mixed $forms (array or string with glues, x|y|z or [x,y,z]
+     * @param array|string $forms (array or string with glues, x|y|z or [x,y,z]
      * @param string $glue
      * @return string
      */
@@ -163,20 +165,20 @@ class Strings
             return $number;
         }
 
-        if (is_string($forms)) {
-            $forms = explode($forms, $glue);
-        } elseif (!is_array($forms)) {
+        if (\is_string($forms)) {
+            $forms = \explode($forms, $glue);
+        } elseif (!\is_array($forms)) {
             return $number;
         }
 
-        switch (count($forms)) {
+        switch (\count($forms)) {
             case 1: {
-                $forms[] = end($forms);
-                $forms[] = end($forms);
+                $forms[] = \end($forms);
+                $forms[] = \end($forms);
                 break;
             }
             case 2: {
-                $forms[] = end($forms);
+                $forms[] = \end($forms);
             }
         }
 
@@ -273,8 +275,8 @@ class Strings
      */
     public static function mb_count_chars($string, $mode, $encoding = 'UTF-8')
     {
-        $l = mb_strlen($string, $encoding);
-        $unique = array();
+        $l = \mb_strlen($string, $encoding);
+        $unique = [];
         for ($i = 0; $i < $l; $i++) {
             $char = mb_substr($string, $i, 1, $encoding);
             if (!array_key_exists($char, $unique)) {

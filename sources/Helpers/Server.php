@@ -1,12 +1,10 @@
 <?php
 
-
 namespace Arris\Helpers;
-
 
 class Server
 {
-    public const HTTP_CODES = array(
+    public const HTTP_CODES = [
         100 => "HTTP/1.1 100 Continue",
         101 => "HTTP/1.1 101 Switching Protocols",
         200 => "HTTP/1.1 200 OK",
@@ -46,7 +44,7 @@ class Server
         502 => "HTTP/1.1 502 Bad Gateway",
         503 => "HTTP/1.1 503 Service Unavailable",
         504 => "HTTP/1.1 504 Gateway Time-out"
-    );
+    ];
     
     /**
      *

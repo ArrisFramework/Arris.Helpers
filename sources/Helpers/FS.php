@@ -41,9 +41,12 @@ class FS
      */
     public static function read_all_files($root = '.')
     {
-        $directory_content = [ 'files' => [], 'dirs' => [] ];
-        $directories = array();
-        $last_letter = $root[ strlen( $root ) - 1 ];
+        $directory_content = [
+            'files' => [],
+            'dirs'  => []
+        ];
+        $directories = [];
+        $last_letter = $root[ \strlen( $root ) - 1 ];
         $root
             = ($last_letter === '\\' || $last_letter === '/')
             ? $root
@@ -81,7 +84,7 @@ class FS
      */
     public static function checkPath($path)
     {
-        if (!is_dir( $path ) && !mkdir( $path, 0777, true ) && !is_dir( $path )) {
+        if (!\is_dir( $path ) && !\mkdir( $path, 0777, true ) && !\is_dir( $path )) {
             return false;
             //throw new \RuntimeException( sprintf( 'Directory "%s" was not created', $path ) );
         }

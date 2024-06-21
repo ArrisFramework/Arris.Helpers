@@ -9,7 +9,7 @@ class ResponseCode
         static $responseCode = null;
 
         if ($code === null) {
-            return $responseCode ? $responseCode : 200;
+            return $responseCode ?: 200;
         }
 
         $text = '';

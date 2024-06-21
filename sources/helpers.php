@@ -37,13 +37,17 @@ if (!function_exists('dd')) {
     function dd()
     {
         $is_not_cli = php_sapi_name() !== "cli";
-        if ($is_not_cli) echo '<pre>';
+        if ($is_not_cli) {
+            echo '<pre>';
+        }
         if (func_num_args()) {
             foreach (func_get_args() as $arg) {
                 var_dump($arg);
             }
         }
-        if ($is_not_cli) echo '</pre>';
+        if ($is_not_cli) {
+            echo '</pre>';
+        }
 
         die;
     }
