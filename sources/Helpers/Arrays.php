@@ -271,7 +271,7 @@ class Arrays
      * @param $arr
      * @return array
      */
-    public static function flatten($arr)
+    public static function flatten($arr): array
     {
         return \array_merge(...\array_values($arr));
     }
@@ -299,6 +299,25 @@ class Arrays
         $args[] = &$data;
         \call_user_func_array('array_multisort', $args);
         return \array_pop($args);
+    }
+
+    /**
+     * @param $input_array
+     * @param $required_key
+     * @param $allowed_values
+     * @param $default_value
+     * @return mixed
+     */
+    public static function filter_array_for_allowed($input_array, $required_key, $allowed_values, $default_value)
+    {
+        return
+            \array_key_exists($required_key, $input_array)
+                ?
+                (
+                \in_array($input_array[ $required_key ], $allowed_values)
+                    ? $input_array[ $required_key ]
+                    : $default_value
+                ) : $default_value;
     }
     
     

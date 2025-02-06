@@ -9,7 +9,7 @@ class INI
 {
     public static function get_ini_value($key)
     {
-        return (int)Strings::return_bytes(ini_get($key));
+        return Strings::return_bytes(ini_get($key));
     }
 
     /**

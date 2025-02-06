@@ -1,12 +1,9 @@
 <?php
 
-
 namespace Arris\Helpers;
-
 
 class Debug
 {
-    
     /**
      * Печать массива в том виде, в каком его понимает php
      *

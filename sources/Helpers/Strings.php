@@ -17,10 +17,10 @@ class Strings
     public static function return_bytes($val):int
     {
         $val = \trim($val);
-        $last = \strtolower( $val[ \strlen($val)-1 ] );
+        $suffix = \strtolower( $val[ \strlen($val)-1 ] );
         $val = (int)$val;
 
-        switch($last) {
+        switch($suffix) {
             case 'g':
                 $val = $val << 10;
             case 'm':
@@ -161,7 +161,7 @@ class Strings
      */
     public static function pluralForm($number, $forms, string $glue = '|'):string
     {
-        if (@empty($forms)) {
+        if (empty($forms)) {
             return $number;
         }
 
